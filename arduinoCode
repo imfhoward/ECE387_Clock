@@ -1,0 +1,58 @@
+int time, hour, minu, sec, setTime = 0, setHour, setMinu, setSec;
+
+void setup() {
+  // put your setup code here, to run once:
+  Serial.begin(9600);
+  pinMode(2, INPUT);
+  pinMode(8, OUTPUT);
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  if (setTime == 0) {
+    uiTime();
+  }
+  getTime();
+  if (setHour == hour, setMinu == minu, setSec == sec) {
+    tone(8, 1000);
+  }
+  if (digitalRead(2) == HIGH) {
+    noTone(8);
+  }
+}
+
+
+
+void getTime() {
+  time = millis() / 1000;
+  hour = time / 3600;
+  time = time % 3600;
+  minu = time / 60;
+  sec = time % 60;
+  Serial.print(hour);
+  Serial.print(":");
+  Serial.print(minu);
+  Serial.print(":");
+  Serial.println(sec);
+  delay(1000);
+}
+
+void uiTime() {
+  Serial.println("please set a alarm");
+  setTime = Serial.parseInt();
+  while (setTime == 0 || setTime == -1 ) {
+    delay(2000);
+    setTime = Serial.parseInt();
+    delay(1000);
+  }
+  setHour = setTime / 10000;
+  setTime = setTime % 10000;
+  setMinu = setTime / 100;
+  setSec = setTime % 100;
+  Serial.print("The Alarm sets at: ");
+  Serial.print(setHour);
+  Serial.print(":");
+  Serial.print(setMinu);
+  Serial.print(":");
+  Serial.println(setSec);
+}
